@@ -1,61 +1,77 @@
-# Batistela — Consultoria em Gestão e Finanças
+# Batistela Gestão Empresarial — site
 
-Site institucional da **Batistela**, consultoria brasileira em gestão e finanças
-empresariais. Página única (landing page) em português do Brasil, responsiva,
-sem dependências de build: HTML, CSS e JavaScript puros.
+Site institucional da **Batistela LTDA** (Batistela Gestão Empresarial), consultoria em
+gestão empresarial e tecnologia em Florianópolis, SC. Três idiomas (português do Brasil,
+espanhol do Chile e inglês dos EUA), gerado como site estático com [Astro](https://astro.build)
+e publicado no GitHub Pages.
+
+- Em produção: https://natasoledad.github.io/BATISTELA/ (até o domínio batistelaconsultoria.com ser ativado)
+- Pendências: ver `PENDENCIAS.md`
+
+## Páginas
+
+| Página | pt | es | en |
+|---|---|---|---|
+| Home | `/pt/` | `/es/` | `/en/` |
+| Quem somos | `/pt/quem-somos/` | `/es/quienes-somos/` | `/en/about-us/` |
+| Soluções (10 páginas) | `/pt/solucoes/…` | `/es/soluciones/…` | `/en/solutions/…` |
+| Ferramentas (calculadora + planilhas) | `/pt/ferramentas/` | `/es/herramientas/` | `/en/tools/` |
+| Conhecimento (e-books + cursos) | `/pt/conhecimento/` | `/es/conocimiento/` | `/en/learning/` |
+| Artigos (blog) | `/pt/artigos/` | `/es/articulos/` | `/en/articles/` |
+| Contato | `/pt/contato/` | `/es/contacto/` | `/en/contact/` |
+| Privacidade | `/pt/politica-de-privacidade/` | `/es/politica-de-privacidad/` | `/en/privacy-policy/` |
 
 ## Estrutura
 
 ```
-batistela/
-├── index.html                  # página principal (todas as seções)
-├── assets/
-│   ├── css/styles.css          # tokens de design, layout e responsividade
-│   ├── js/main.js              # menu mobile, animações e formulário de contato
-│   └── img/logo.svg            # logotipo e favicon
-└── .github/workflows/
-    └── deploy-pages.yml        # publicação automática no GitHub Pages
+src/
+├── i18n/            textos de todas as páginas, por idioma (pt.ts, es.ts, en.ts)
+│   └── index.ts     rotas localizadas e helpers (href, asset)
+├── lib/site.ts      e-mail, WhatsApp, endereço, endpoint do formulário
+├── layouts/Base.astro   <head> com SEO, hreflang, JSON-LD, header, footer, WhatsApp, cookies
+├── components/      Header, Footer, Calculadora, formulários, modal de download, ícones
+│   └── pages/       um componente por página (Home, About, Solutions, Solution, Tools, ...)
+├── pages/           rotas: [lang]/index.astro e [lang]/[...slug].astro
+├── content/artigos/ artigos do blog em Markdown (ver README.md.txt na pasta)
+└── styles/global.css    tokens de design e estilos
+public/
+├── img/             logos (SVG extraídos do manual), og-image
+├── fonts/           Area Extended e Moneta Sans (woff2)
+└── downloads/       planilhas e e-books oferecidos no site
+brand/               referência da identidade visual
 ```
 
-## Seções da página
+## Como editar textos
 
-1. **Hero** — proposta de valor e chamada para o diagnóstico gratuito
-2. **Indicadores** — números de credibilidade
-3. **Sobre** — posicionamento e forma de atuar
-4. **Serviços** — planejamento financeiro, controladoria, BPO financeiro,
-   reestruturação, governança e valuation/M&A
-5. **Como trabalhamos** — método em quatro etapas
-6. **Resultados** — depoimentos de clientes
-7. **Dúvidas frequentes**
-8. **Contato** — WhatsApp, e-mail e formulário (com aviso LGPD)
+Todos os textos ficam em `src/i18n/pt.ts`, `es.ts` e `en.ts`. Cada arquivo tem a mesma
+estrutura. Para mudar um texto, altere nos três idiomas e faça o commit.
+
+Dados de contato (e-mail, WhatsApp, endereço) ficam em `src/lib/site.ts`.
 
 ## Rodar localmente
 
-Basta abrir `index.html` no navegador, ou servir a pasta:
-
 ```bash
-python3 -m http.server 8080
-# http://localhost:8080
+npm install
+npm run dev      # http://localhost:4321/BATISTELA/pt/
+npm run build    # gera a pasta dist/
 ```
 
-## Publicar
+## Publicação
 
-O workflow em `.github/workflows/deploy-pages.yml` publica o site no GitHub
-Pages a cada push na branch `main`. Em **Settings → Pages**, escolha
-*GitHub Actions* como fonte. O site também pode ser hospedado em qualquer
-serviço de arquivos estáticos (Vercel, Netlify, Cloudflare Pages, S3).
+O workflow `.github/workflows/deploy-pages.yml` constrói e publica o site a cada push na
+branch `main`. Em **Settings → Pages**, escolha *GitHub Actions* como fonte.
 
-## O que personalizar antes de ir ao ar
+Quando o domínio estiver ativo, siga os passos comentados no início do workflow
+(variáveis `SITE_URL` e `BASE_PATH`).
 
-Procure por estes trechos em `index.html`:
+## Formulários
 
-- Telefone/WhatsApp: `+55 (00) 00000-0000` e o link `wa.me/5500000000000`
-- E-mail: `contato@batistela.com.br` (também em `assets/js/main.js`)
-- CNPJ e razão social no rodapé
-- Números da seção de indicadores e depoimentos (são exemplos)
-- Domínio nas meta tags Open Graph quando o site tiver URL definitiva
+Contato, downloads e listas de espera enviam por **FormSubmit** para
+`info@batistelaconsultoria.com`, sem backend. Na primeira mensagem, o FormSubmit envia um
+e-mail de ativação para essa caixa; é preciso confirmar uma vez.
 
-O formulário hoje abre o cliente de e-mail do visitante. Para receber as
-mensagens em um CRM ou caixa de entrada sem depender disso, troque o envio
-em `assets/js/main.js` por um endpoint (Formspree, Netlify Forms, ou um
-backend próprio).
+## Identidade visual
+
+- Azul: `#202A44` · Ouro fosco: `#AD965F` · Amarelo claro: `#F5ECD5`
+- Azul secundário: `#4D5F80` · Azul claro: `#C8D8EB` · Cinza: `#D9D9D6`
+- Títulos: Area Extended · Texto: Moneta Sans

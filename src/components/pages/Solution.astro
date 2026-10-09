@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { t, href, locales, solutionIcons, managementCount, type Locale } from '../../i18n';
+import { whatsappLink } from '../../lib/site';
+interface Props { locale: Locale; index: number }
+const { locale, index } = Astro.props;
+const d = t(locale);
+const s = d.solutions;
+const item = s.items[index];
+const category = index < managementCount ? s.categoryManagement : s.categoryTech;
+const alternates = Object.fromEntries(locales.map((l) => [l, t(l).solutions.items[index].slug])) as Record<Locale, string>;
+const others = s.items.filter((_, i) => i !== index).slice(0, 3);
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: item.title,
+  description: item.seoDescription,
+  serviceType: item.title,
+  provider: { '@type': 'ProfessionalService', name: d.brand.name },
+  areaServed: locale === 'pt' ? 'BR' : locale === 'es' ? 'CL' : 'US',
+};
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: d.nav.home, item: href(locale, 'home') },
+    { '@type': 'ListItem', position: 2, name: s.title, item: href(locale, 'solutions') },
+    { '@type': 'ListItem', position: 3, name: item.title },
+  ],
+};
+---
+
+<Base locale={locale} page="solutions" title={item.seoTitle} description={item.seoDescription} alternates={alternates} jsonLd={[serviceLd, breadcrumbLd]}>
+  <section class="page-head">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href={href(locale, 'home')}>{d.nav.home}</a> / <a href={href(locale, 'solutions')}>{s.title}</a> / <span>{item.title}</span>
+      </nav>
+      <p class="eyebrow">{category}</p>
+      <h1><span class="icon-badge lg"><Icon name={solutionIcons[index]} size={28} /></span>{item.title}</h1>
+      <p class="lead">{item.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container detail-grid">
+      <div class="detail-main">
+        <h2>{s.detailForWhom}</h2>
+        <ul class="checklist">{item.forWhom.map((x) => <li><Icon name="check" size={18} />{x}</li>)}</ul>
+        <h2>{s.detailDeliverables}</h2>
+        <ol class="numbered">{item.deliverables.map((x) => <li>{x}</li>)}</ol>
+        <h2>{s.detailOutcome}</h2>
+        <p class="outcome">{item.outcome}</p>
+      </div>
+      <aside class="detail-side">
+        <div class="card card-accent">
+          <h3>{s.detailCta}</h3>
+          <p>{d.home.ctaText}</p>
+          <a class="btn btn-primary" href={href(locale, 'contact')}>{s.detailCtaButton}</a>
+          <a class="btn btn-outline-dark" href={whatsappLink(`${item.title} - ${d.brand.name}`)} target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="card">
+          <h3>{s.otherSolutions}</h3>
+          <ul class="sol-list compact">
+            {others.map((o) => {
+              const idx = s.items.indexOf(o);
+              return <li><a href={href(locale, 'solutions', o.slug)}><Icon name={solutionIcons[idx]} size={18} /><span>{o.title}</span></a></li>;
+            })}
+          </ul>
+          <a class="link-arrow" href={href(locale, 'solutions')}>{s.backToList} <Icon name="arrow" size={16} /></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

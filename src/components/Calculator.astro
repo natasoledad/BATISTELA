@@ -1,0 +1,97 @@
+---
+import { t, type Locale } from '../i18n';
+import Icon from './Icon.astro';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale).tools.calculator;
+const currency = locale === 'pt' ? 'BRL' : locale === 'es' ? 'CLP' : 'USD';
+const fmtLocale = t(locale).htmlLang;
+---
+
+<section class="calc card-lg" id="calculadora" aria-labelledby="calc-title">
+  <div class="calc-head">
+    <span class="icon-badge"><Icon name="calculator" /></span>
+    <div>
+      <h2 id="calc-title">{c.title}</h2>
+      <p class="muted">{c.text}</p>
+    </div>
+  </div>
+
+  <form class="calc-form" id="calc-form" novalidate>
+    <div class="field">
+      <label for="c-cost">{c.cost}</label>
+      <input id="c-cost" name="cost" type="number" inputmode="decimal" min="0" step="0.01" value="100" required />
+      <small>{c.costHelp}</small>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="c-taxes">{c.taxes}</label>
+        <input id="c-taxes" name="taxes" type="number" inputmode="decimal" min="0" max="99" step="0.1" value={locale === 'pt' ? '6' : '0'} />
+        <small>{c.taxesHelp}</small>
+      </div>
+      <div class="field">
+        <label for="c-comm">{c.commission}</label>
+        <input id="c-comm" name="commission" type="number" inputmode="decimal" min="0" max="99" step="0.1" value="5" />
+        <small>{c.commissionHelp}</small>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="c-fixed">{c.fixedPct}</label>
+        <input id="c-fixed" name="fixed" type="number" inputmode="decimal" min="0" max="99" step="0.1" value="20" />
+        <small>{c.fixedPctHelp}</small>
+      </div>
+      <div class="field">
+        <label for="c-margin">{c.margin}</label>
+        <input id="c-margin" name="margin" type="number" inputmode="decimal" min="0" max="99" step="0.1" value="15" />
+        <small>{c.marginHelp}</small>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">{c.button}</button>
+  </form>
+
+  <div class="calc-results" id="calc-results" aria-live="polite">
+    <div class="calc-main">
+      <span class="label">{c.resultPrice}</span>
+      <strong id="r-price">—</strong>
+    </div>
+    <div class="calc-grid">
+      <div><span class="label">{c.resultMarkup}</span><strong id="r-markup">—</strong></div>
+      <div><span class="label">{c.resultContribution}</span><strong id="r-contrib">—</strong></div>
+      <div><span class="label">{c.resultProfit}</span><strong id="r-profit">—</strong></div>
+    </div>
+    <p class="form-status err" id="r-warn" hidden>{c.warning}</p>
+    <p class="muted small">{c.note}</p>
+  </div>
+</section>
+
+<script define:vars={{ currency, fmtLocale }}>
+  const f = document.getElementById('calc-form');
+  const money = new Intl.NumberFormat(fmtLocale, { style: 'currency', currency, maximumFractionDigits: 2 });
+  const pct = new Intl.NumberFormat(fmtLocale, { style: 'percent', maximumFractionDigits: 1 });
+  const num = (id) => parseFloat(document.getElementById(id).value.replace(',', '.')) || 0;
+  function calc() {
+    const cost = num('c-cost');
+    const taxes = num('c-taxes') / 100, comm = num('c-comm') / 100, fixed = num('c-fixed') / 100, margin = num('c-margin') / 100;
+    const sum = taxes + comm + fixed + margin;
+    const warn = document.getElementById('r-warn');
+    if (sum >= 1 || cost <= 0) {
+      warn.hidden = cost > 0 ? false : true;
+      ['r-price', 'r-markup', 'r-contrib', 'r-profit'].forEach((id) => (document.getElementById(id).textContent = '—'));
+      return;
+    }
+    warn.hidden = true;
+    const price = cost / (1 - sum);
+    const markup = price / cost;
+    const variable = price * (taxes + comm);
+    const contrib = price - cost - variable; // margem de contribuição em valor
+    const profit = price * margin;
+    document.getElementById('r-price').textContent = money.format(price);
+    document.getElementById('r-markup').textContent = markup.toFixed(2) + 'x (' + pct.format(markup - 1) + ')';
+    document.getElementById('r-contrib').textContent = money.format(contrib) + ' (' + pct.format(contrib / price) + ')';
+    document.getElementById('r-profit').textContent = money.format(profit) + ' (' + pct.format(margin) + ')';
+  }
+  f.addEventListener('submit', (e) => { e.preventDefault(); calc(); });
+  f.addEventListener('input', calc);
+  calc();
+</script>

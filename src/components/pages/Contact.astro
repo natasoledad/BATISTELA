@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import ContactForm from '../ContactForm.astro';
+import { t, type Locale } from '../../i18n';
+import { site, whatsappLink } from '../../lib/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const c = d.contact;
+---
+
+<Base locale={locale} page="contact" title={c.seoTitle} description={c.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.contact}</p>
+      <h1>{c.title}</h1>
+      <p class="lead">{c.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <ContactForm locale={locale} />
+      <aside class="contact-info">
+        <h2>{c.infoTitle}</h2>
+        <ul class="contact-list">
+          <li><Icon name="pin" /><div><strong>{c.addressLabel}</strong><a href={site.mapsLink} target="_blank" rel="noopener">{site.address.street}<br />{site.address.district}, {site.address.city} - {site.address.state}</a></div></li>
+          <li><Icon name="mail" /><div><strong>{c.emailLabel}</strong><a href={`mailto:${site.email}`}>{site.email}</a></div></li>
+          <li><Icon name="chat" /><div><strong>{c.whatsappLabel}</strong><a href={whatsappLink()} target="_blank" rel="noopener">{site.whatsappDisplay}</a></div></li>
+          <li><Icon name="clock" /><div><strong>{c.hoursLabel}</strong><span>{c.hours}</span></div></li>
+        </ul>
+        <p class="muted">{c.remote}</p>
+        <div class="map">
+          <iframe src={site.mapsEmbed} width="100%" height="260" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title={site.address.full}></iframe>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>

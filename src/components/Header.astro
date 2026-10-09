@@ -1,0 +1,70 @@
+---
+import { t, locales, href, asset, type Locale, type PageKey } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  page: PageKey;
+  alternates?: Partial<Record<Locale, string>>;
+  translated?: boolean;
+}
+const { locale, page, alternates = {}, translated = true } = Astro.props;
+const dict = t(locale);
+
+const items: { key: PageKey; label: string }[] = [
+  { key: 'home', label: dict.nav.home },
+  { key: 'about', label: dict.nav.about },
+  { key: 'solutions', label: dict.nav.solutions },
+  { key: 'tools', label: dict.nav.tools },
+  { key: 'knowledge', label: dict.nav.knowledge },
+  { key: 'articles', label: dict.nav.articles },
+];
+
+// Troca de idioma: leva à página equivalente; se não existir tradução, à lista/Home do outro idioma.
+const langLink = (l: Locale) => {
+  if (!translated) return href(l, page === 'home' ? 'home' : page);
+  if (Object.keys(alternates).length === 0) return href(l, page);
+  return alternates[l] !== undefined ? href(l, page, alternates[l]) : href(l, page);
+};
+const flags: Record<Locale, string> = { pt: 'PT', es: 'ES', en: 'EN' };
+---
+
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href={href(locale, 'home')} aria-label={dict.brand.name}>
+      <img src={asset('img/logo-horizontal.svg')} alt={dict.brand.name} width="190" height="44" />
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label={dict.nav.menu} data-label-open={dict.nav.menu} data-label-close={dict.nav.close}>
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="menu-principal" class="nav" aria-label="Principal">
+      <ul class="nav-list">
+        {items.map((it) => (
+          <li><a href={href(locale, it.key)} aria-current={it.key === page ? 'page' : undefined}>{it.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav-actions">
+        <div class="lang" role="group" aria-label={dict.nav.language}>
+          {locales.map((l) => (
+            <a href={langLink(l)} hreflang={t(l).htmlLang} lang={t(l).htmlLang} aria-current={l === locale ? 'true' : undefined} title={t(l).localeName}>{flags[l]}</a>
+          ))}
+        </div>
+        <a class="btn btn-primary btn-sm" href={href(locale, 'contact')}>{dict.nav.cta}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('menu-principal');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      document.body.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? toggle.dataset.labelClose! : toggle.dataset.labelOpen!);
+    });
+  }
+</script>

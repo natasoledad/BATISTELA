@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { getCollection } from 'astro:content';
+import { t, href, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const a = d.articles;
+const posts = (await getCollection('artigos', ({ data }) => !data.draft)).sort((x, y) => y.data.date.valueOf() - x.data.date.valueOf());
+const fmt = new Intl.DateTimeFormat(d.htmlLang, { dateStyle: 'long' });
+---
+
+<Base locale={locale} page="articles" title={a.seoTitle} description={a.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.articles}</p>
+      <h1>{a.title}</h1>
+      <p class="lead">{a.lead}</p>
+      {locale !== 'pt' && <p class="notice">{a.translateNotice}</p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <div class="empty" data-reveal>
+          <Icon name="article" size={40} />
+          <p>{a.empty}</p>
+        </div>
+      ) : (
+        <div class="cards-3">
+          {posts.map((p) => (
+            <article class="card card-link" data-reveal>
+              <p class="muted small">{fmt.format(p.data.date)} · {p.data.readingMinutes} {a.minutes}</p>
+              <h3><a href={href(locale, 'articles', p.id)}>{p.data.title}</a></h3>
+              <p>{p.data.description}</p>
+              <p class="muted small">{a.by} {p.data.author}</p>
+              <a class="link-arrow" href={href(locale, 'articles', p.id)}>{a.readMore} <Icon name="arrow" size={16} /></a>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,109 @@
+---
+// Modal único reutilizado por toda a página para: download com cadastro (planilhas, e-books)
+// e lista de espera (cursos, software). Abre via botões com data-lead="download|waitlist".
+import { t, href, type Locale } from '../i18n';
+import { site } from '../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale).leadForm;
+const privacy = t(locale).contact;
+---
+
+<div class="modal" id="lead-modal" hidden role="dialog" aria-modal="true" aria-labelledby="lead-title">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <button type="button" class="modal-close" data-close aria-label={d.close}>×</button>
+    <h3 id="lead-title" data-title-download={d.title} data-title-waitlist={d.waitlistTitle}>{d.title}</h3>
+    <p class="modal-item" id="lead-item"></p>
+    <p class="muted" id="lead-text" data-text-download={d.text} data-text-waitlist={d.waitlistText}>{d.text}</p>
+
+    <form id="lead-form" class="form" novalidate>
+      <input type="hidden" name="_subject" value="" />
+      <input type="hidden" name="tipo" value="" />
+      <input type="hidden" name="material" value="" />
+      <input type="hidden" name="idioma" value={locale} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+      <div class="field">
+        <label for="lead-nome">{d.name}</label>
+        <input id="lead-nome" name="nome" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="lead-email">{d.email}</label>
+        <input id="lead-email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <p class="consent">{privacy.consent} <a href={href(locale, 'privacy')} target="_blank">{privacy.consentLink}</a>.</p>
+      <button type="submit" class="btn btn-primary" data-label-download={d.submit} data-label-waitlist={d.waitlistTitle} data-sending={d.sending}>{d.submit}</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="lead-done" hidden>
+      <p class="form-status ok" id="lead-done-msg" data-download={d.success} data-waitlist={d.waitlistSuccess}></p>
+      <a id="lead-download" class="btn btn-primary" href="#" download hidden>{d.downloadNow}</a>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ endpoint: site.formEndpoint, errorMsg: d.error }}>
+  const modal = document.getElementById('lead-modal');
+  const form = document.getElementById('lead-form');
+  const title = document.getElementById('lead-title');
+  const text = document.getElementById('lead-text');
+  const item = document.getElementById('lead-item');
+  const done = document.getElementById('lead-done');
+  const doneMsg = document.getElementById('lead-done-msg');
+  const dl = document.getElementById('lead-download');
+  const submitBtn = form.querySelector('button[type=submit]');
+  const status = form.querySelector('.form-status');
+  let current = { type: 'download', file: '', name: '' };
+
+  function open(type, name, file) {
+    current = { type, file, name };
+    title.textContent = type === 'download' ? title.dataset.titleDownload : title.dataset.titleWaitlist;
+    text.textContent = type === 'download' ? text.dataset.textDownload : text.dataset.textWaitlist;
+    item.textContent = name;
+    submitBtn.textContent = type === 'download' ? submitBtn.dataset.labelDownload : submitBtn.dataset.labelWaitlist;
+    form.querySelector('[name=tipo]').value = type;
+    form.querySelector('[name=material]').value = name;
+    form.querySelector('[name=_subject]').value = (type === 'download' ? 'Download: ' : 'Lista de espera: ') + name;
+    form.hidden = false; done.hidden = true; status.textContent = ''; status.className = 'form-status';
+    modal.hidden = false; document.body.classList.add('modal-open');
+    setTimeout(() => document.getElementById('lead-nome').focus(), 50);
+  }
+  function close() { modal.hidden = true; document.body.classList.remove('modal-open'); }
+
+  document.querySelectorAll('[data-lead]').forEach((btn) => {
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      const type = btn.dataset.lead;
+      const file = btn.dataset.file || '';
+      // Já cadastrado neste navegador: libera o download direto.
+      let known = false;
+      try { known = !!localStorage.getItem('bt-lead'); } catch {}
+      if (type === 'download' && known && file) { window.location.href = file; return; }
+      open(type, btn.dataset.name || '', file);
+    });
+  });
+  modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const nome = form.nome.value.trim(), email = form.email.value.trim();
+    const ok = nome && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!ok) { status.className = 'form-status err'; status.textContent = errorMsg; return; }
+    submitBtn.disabled = true; const label = submitBtn.textContent; submitBtn.textContent = submitBtn.dataset.sending;
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      if (!res.ok) throw new Error('send');
+      try { localStorage.setItem('bt-lead', email); } catch {}
+      form.hidden = true; done.hidden = false;
+      doneMsg.textContent = current.type === 'download' ? doneMsg.dataset.download : doneMsg.dataset.waitlist;
+      if (current.type === 'download' && current.file) { dl.href = current.file; dl.hidden = false; dl.click(); } else { dl.hidden = true; }
+    } catch {
+      status.className = 'form-status err'; status.textContent = errorMsg;
+    } finally { submitBtn.disabled = false; submitBtn.textContent = label; }
+  });
+</script>

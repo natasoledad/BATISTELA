@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { t, href, solutionIcons, managementCount, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const s = d.solutions;
+const groups = [
+  { title: s.categoryManagement, icon: 'chart', items: s.items.slice(0, managementCount), offset: 0 },
+  { title: s.categoryTech, icon: 'laptop', items: s.items.slice(managementCount), offset: managementCount },
+];
+---
+
+<Base locale={locale} page="solutions" title={s.seoTitle} description={s.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.solutions}</p>
+      <h1>{s.title}</h1>
+      <p class="lead">{s.lead}</p>
+    </div>
+  </section>
+
+  {groups.map((g) => (
+    <section class="section">
+      <div class="container">
+        <h2 class="sol-cat" data-reveal><span class="cat-badge"><Icon name={g.icon} size={18} /></span>{g.title}</h2>
+        <div class="cards-3">
+          {g.items.map((it, i) => (
+            <article class="card card-link" data-reveal>
+              <span class="icon-badge"><Icon name={solutionIcons[g.offset + i]} /></span>
+              <h3><a href={href(locale, 'solutions', it.slug)}>{it.title}</a></h3>
+              <p>{it.short}</p>
+              <a class="link-arrow" href={href(locale, 'solutions', it.slug)}>{s.learnMore} <Icon name="arrow" size={16} /></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section cta-band">
+    <div class="container cta-inner">
+      <div><h2>{d.home.ctaTitle}</h2><p>{d.home.ctaText}</p></div>
+      <a class="btn btn-gold btn-lg" href={href(locale, 'contact')}>{d.home.ctaButton}</a>
+    </div>
+  </section>
+</Base>

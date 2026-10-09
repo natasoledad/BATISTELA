@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import Calculator from '../Calculator.astro';
+import { t, asset, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const tl = d.tools;
+---
+
+<Base locale={locale} page="tools" title={tl.seoTitle} description={tl.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.tools}</p>
+      <h1>{tl.title}</h1>
+      <p class="lead">{tl.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Calculator locale={locale} />
+    </div>
+  </section>
+
+  <section class="section section-alt" id="planilhas">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{tl.downloadsTitle}</h2>
+        <p class="sub">{tl.downloadsText}</p>
+      </div>
+      <div class="cards-3">
+        {tl.downloads.map((it) => (
+          <article class="card" data-reveal>
+            <span class="icon-badge"><Icon name="download" /></span>
+            <h3>{it.title}</h3>
+            <p>{it.description}</p>
+            <p class="muted small">{it.format}</p>
+            {it.file
+              ? <button type="button" class="btn btn-primary" data-lead="download" data-name={it.title} data-file={asset('downloads/' + it.file)}>{d.leadForm.title}</button>
+              : <span class="badge">{d.common.comingSoon}</span>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card card-accent software" data-reveal>
+        <span class="icon-badge"><Icon name="laptop" /></span>
+        <div>
+          <span class="badge">{tl.softwareBadge}</span>
+          <h2>{tl.softwareTitle}</h2>
+          <p>{tl.softwareText}</p>
+          <button type="button" class="btn btn-primary" data-lead="waitlist" data-name={tl.softwareTitle}>{tl.softwareCta}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
