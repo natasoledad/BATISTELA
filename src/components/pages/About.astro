@@ -65,7 +65,7 @@ const valueIcons = ['eye', 'check', 'hands', 'shield'];
           </article>
         ))}
       </div>
-      <p class="muted small center">{a.teamPending}</p>
+      {a.teamPending && <p class="muted small center">{a.teamPending}</p>}
     </div>
   </section>
 

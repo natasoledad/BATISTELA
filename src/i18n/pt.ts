@@ -85,9 +85,9 @@ export const pt: Dictionary = {
     partners: [
       { name: 'Saulo Batistela de Lima', role: 'Economista · Sócio-consultor', bio: 'Economista com MBA em Finanças e mais de 20 anos de experiência em gestão financeira, consultoria e análise de viabilidade de projetos. Sólida experiência internacional no Brasil e no Chile, atuando em diversos setores da economia. Expertise em liderança e treinamento de equipes, otimização de processos, gestão orçamentária e negociação com fornecedores, com resultados comprovados na maximização de indicadores financeiros e no desenvolvimento de soluções personalizadas para empresas.', initials: 'SB' },
       { name: 'Sandra Batistela de L. Joaquim', role: 'Administradora · Sócia-consultora', bio: 'Administradora de Empresas com sólida experiência de 20 anos na área administrativa e financeira, impulsionada por uma pós-graduação em Gestão de Pessoas nas Organizações. Expertise em processos humanizados, excelência na organização e estruturação do fluxo de trabalho, gestão orçamentária estratégica, elaboração e acompanhamento de planos de ação para aumento da produtividade, além de desenvolvimento e aplicação de treinamentos eficazes.', initials: 'SJ' },
-      { name: 'Natalia Silva', role: 'Consultora', bio: 'Mini currículo em breve.', initials: 'NS' },
+      { name: 'Natalia Silva', role: 'Customer Experience e Tecnologia · Consultora', bio: 'Executiva sênior com sólida trajetória na direção de operações regionais e na liderança de estratégias de Customer Experience (CX) em toda a América Latina. Atua como consultora integrando práticas de Service Design, User Experience (UX) e Customer Journey Mapping (CJM) para mapear e transformar a jornada do consumidor, otimizando cada ponto de contato. Sua expertise abrange o desenho estratégico de processos e a automação avançada, combinando Inteligência Artificial (IA) com plataformas como Salesforce, Kommo CRM, SAP e Oracle ERP. Oferece soluções sob medida que unem visão de negócios e inovação tecnológica, criando experiências que fidelizam clientes e geram valor sustentável para a marca.', initials: 'NS' },
     ],
-    teamPending: 'O mini currículo de Natalia Silva será publicado em breve.',
+    teamPending: '',
   },
   solutions: {
     seoTitle: 'Soluções em Gestão de Negócios e Tecnologia | Batistela',
