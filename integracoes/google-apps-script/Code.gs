@@ -83,7 +83,11 @@ function appendRow_(def, row) {
       sheet.setColumnWidths(1, def.headers.length, 180);
     }
     sheet.appendRow(row);
-    sheet.getRange(sheet.getLastRow(), 1).setNumberFormat('dd/mm/yyyy hh:mm');
+    const last = sheet.getLastRow();
+    sheet.getRange(last, 1).setNumberFormat('dd/mm/yyyy hh:mm');
+    // Telefone como texto, para o Sheets não apagar o "+" nem os zeros à esquerda.
+    const telIdx = def.headers.indexOf('Telefone');
+    if (telIdx >= 0) sheet.getRange(last, telIdx + 1).setNumberFormat('@').setValue(String(row[telIdx] || ''));
   } finally {
     lock.releaseLock();
   }
