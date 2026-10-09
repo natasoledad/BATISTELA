@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { t, href, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const a = d.about;
+const valueIcons = ['eye', 'check', 'hands', 'shield'];
+---
+
+<Base locale={locale} page="about" title={a.seoTitle} description={a.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.about}</p>
+      <h1>{a.title}</h1>
+      <p class="lead">{a.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="prose" data-reveal>
+        {a.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="pillar-stack" data-reveal>
+        {d.home.pillars.map((p, i) => (
+          <div class="pillar-mini">
+            <span class="icon-badge"><Icon name={['process', 'people', 'chart'][i]} /></span>
+            <div><strong>{p.title}</strong><p>{p.text}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head" data-reveal><h2>{a.valuesTitle}</h2></div>
+      <div class="cards-4">
+        {a.values.map((v, i) => (
+          <article class="card" data-reveal>
+            <span class="icon-badge"><Icon name={valueIcons[i]} /></span>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="equipe">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{a.teamTitle}</h2>
+        <p class="sub">{a.teamText}</p>
+      </div>
+      <div class="team">
+        {a.partners.map((p) => (
+          <article class="card team-card" data-reveal>
+            <div class="avatar" aria-hidden="true">{p.initials}</div>
+            <h3>{p.name}</h3>
+            <p class="role">{p.role}</p>
+            <p class="muted">{p.bio}</p>
+          </article>
+        ))}
+      </div>
+      <p class="muted small center">{a.teamPending}</p>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container cta-inner">
+      <div><h2>{d.home.ctaTitle}</h2><p>{d.home.ctaText}</p></div>
+      <a class="btn btn-gold btn-lg" href={href(locale, 'contact')}>{d.home.ctaButton}</a>
+    </div>
+  </section>
+</Base>

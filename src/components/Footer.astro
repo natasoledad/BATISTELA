@@ -1,0 +1,50 @@
+---
+import { t, href, asset, type Locale } from '../i18n';
+import { site, whatsappLink } from '../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const dict = t(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src={asset('img/logo-horizontal-branco.svg')} alt={dict.brand.name} width="200" height="46" loading="lazy" />
+      <p>{dict.footer.description}</p>
+      <p class="footer-tagline">{dict.brand.tagline}</p>
+    </div>
+    <div>
+      <h4>{dict.footer.navTitle}</h4>
+      <ul>
+        <li><a href={href(locale, 'about')}>{dict.nav.about}</a></li>
+        <li><a href={href(locale, 'solutions')}>{dict.nav.solutions}</a></li>
+        <li><a href={href(locale, 'tools')}>{dict.nav.tools}</a></li>
+        <li><a href={href(locale, 'knowledge')}>{dict.nav.knowledge}</a></li>
+        <li><a href={href(locale, 'articles')}>{dict.nav.articles}</a></li>
+        <li><a href={href(locale, 'contact')}>{dict.nav.contact}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>{dict.footer.solutionsTitle}</h4>
+      <ul>
+        {dict.solutions.items.map((s) => (
+          <li><a href={href(locale, 'solutions', s.slug)}>{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h4>{dict.footer.contactTitle}</h4>
+      <ul class="footer-contact">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={whatsappLink()} target="_blank" rel="noopener">{site.whatsappDisplay}</a></li>
+        <li><a href={site.mapsLink} target="_blank" rel="noopener">{site.address.street}<br />{site.address.district}, {site.address.city} - {site.address.state}</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {year} {dict.brand.legalName}. {dict.footer.rights}</span>
+    <span><a href={href(locale, 'privacy')}>{dict.footer.privacy}</a> · {dict.footer.lgpd}</span>
+  </div>
+</footer>

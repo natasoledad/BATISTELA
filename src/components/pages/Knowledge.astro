@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { t, asset, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const k = d.knowledge;
+---
+
+<Base locale={locale} page="knowledge" title={k.seoTitle} description={k.seoDescription}>
+  <section class="page-head">
+    <div class="container">
+      <p class="eyebrow">{d.nav.knowledge}</p>
+      <h1>{k.title}</h1>
+      <p class="lead">{k.lead}</p>
+    </div>
+  </section>
+
+  <section class="section" id="ebooks">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{k.ebooksTitle}</h2>
+        <p class="sub">{k.ebooksText}</p>
+      </div>
+      <div class="cards-2">
+        {k.ebooks.map((e) => (
+          <article class="card ebook" data-reveal>
+            <div class="ebook-cover" aria-hidden="true"><Icon name="book" size={36} /></div>
+            <div>
+              <h3>{e.title}</h3>
+              <p>{e.description}</p>
+              <p class="muted small">{e.format}</p>
+              {e.file
+                ? <button type="button" class="btn btn-primary" data-lead="download" data-name={e.title} data-file={asset('downloads/' + e.file)}>{d.leadForm.title}</button>
+                : <button type="button" class="btn btn-outline-dark" data-lead="waitlist" data-name={e.title}>{d.common.comingSoon} · {d.leadForm.waitlistTitle}</button>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="cursos">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{k.coursesTitle}</h2>
+        <p class="sub">{k.coursesText}</p>
+      </div>
+      <div class="cards-2">
+        {k.courses.map((c) => (
+          <article class="card course" data-reveal>
+            <div class="course-head">
+              <span class="icon-badge"><Icon name="play" /></span>
+              <span class="badge">{k.courseBadge}</span>
+            </div>
+            <h3>{c.title}</h3>
+            <p>{c.description}</p>
+            <p class="small"><strong>{k.courseAudience}:</strong> {c.audience}</p>
+            <p class="small"><strong>{k.courseTopics}</strong></p>
+            <ul class="checklist small">{c.topics.map((tp) => <li><Icon name="check" size={16} />{tp}</li>)}</ul>
+            <button type="button" class="btn btn-primary" data-lead="waitlist" data-name={c.title}>{k.courseCta}</button>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

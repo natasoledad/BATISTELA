@@ -1,5 +1,13 @@
-# Publica o site estático no GitHub Pages a cada push na branch main.
+# Constrói o site (Astro) e publica no GitHub Pages a cada push na branch main.
 # Em Settings → Pages, selecione "GitHub Actions" como fonte.
+#
+# Domínio: enquanto batistelaconsultoria.com não estiver ativo, o site fica em
+# https://natasoledad.github.io/BATISTELA/. Quando o domínio estiver apontado:
+#   1. Settings → Pages → Custom domain: batistelaconsultoria.com
+#   2. Settings → Secrets and variables → Actions → Variables:
+#        SITE_URL  = https://batistelaconsultoria.com
+#        BASE_PATH = /
+#   3. Faça um novo push (ou "Run workflow") para republicar.
 name: Deploy to GitHub Pages
 
 on:
@@ -17,16 +25,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://natasoledad.github.io' }}
+          BASE_PATH: ${{ vars.BASE_PATH || '/BATISTELA' }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
       - id: deployment
         uses: actions/deploy-pages@v4

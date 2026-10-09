@@ -1,0 +1,129 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { t, href, asset, solutionIcons, managementCount, type Locale } from '../../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const h = d.home;
+const mgmt = d.solutions.items.slice(0, managementCount);
+const tech = d.solutions.items.slice(managementCount);
+const pillarIcons = ['process', 'people', 'chart'];
+---
+
+<Base locale={locale} page="home" title={h.seoTitle} description={h.seoDescription}>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">{h.heroEyebrow}</p>
+        <h1>{h.heroTitle} <em>{h.heroHighlight}</em></h1>
+        <p class="lead">{h.heroText}</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href={href(locale, 'contact')}>{h.heroCtaPrimary}</a>
+          <a class="btn btn-outline btn-lg" href={href(locale, 'solutions')}>{h.heroCtaSecondary}</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <img src={asset('img/simbolo.svg')} alt="" width="320" height="320" class="hero-symbol" />
+        <div class="hero-pillars">
+          {h.pillars.map((p, i) => (
+            <div class="pillar-chip" style={`--d:${i * 0.12}s`}><Icon name={pillarIcons[i]} size={20} /><span>{p.title}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="pillars">
+        {h.pillars.map((p, i) => (
+          <article class="pillar card" data-reveal>
+            <span class="icon-badge"><Icon name={pillarIcons[i]} /></span>
+            <h2>{p.title}</h2>
+            <p>{p.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="solucoes">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{h.solutionsTitle}</h2>
+        <p class="sub">{h.solutionsText}</p>
+      </div>
+      <div class="sol-columns">
+        <div class="sol-col" data-reveal>
+          <h3 class="sol-cat"><span class="cat-badge"><Icon name="chart" size={18} /></span>{h.categoryManagement}</h3>
+          <ul class="sol-list">
+            {mgmt.map((s, i) => (
+              <li><a href={href(locale, 'solutions', s.slug)}><Icon name={solutionIcons[i]} size={20} /><span>{s.title}</span><Icon name="arrow" size={16} class="arrow" /></a></li>
+            ))}
+          </ul>
+        </div>
+        <div class="sol-col" data-reveal>
+          <h3 class="sol-cat"><span class="cat-badge"><Icon name="laptop" size={18} /></span>{h.categoryTech}</h3>
+          <ul class="sol-list">
+            {tech.map((s, i) => (
+              <li><a href={href(locale, 'solutions', s.slug)}><Icon name={solutionIcons[managementCount + i]} size={20} /><span>{s.title}</span><Icon name="arrow" size={16} class="arrow" /></a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="sol-foot">
+        <span class="muted">{h.solutionsCount}</span>
+        <a class="link-arrow" href={href(locale, 'solutions')}>{h.solutionsCta} <Icon name="arrow" size={16} /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal><h2>{h.methodTitle}</h2></div>
+      <ol class="steps">
+        {h.methodSteps.map((s, i) => (
+          <li data-reveal>
+            <span class="step-n">0{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{h.resourcesTitle}</h2>
+        <p class="sub">{h.resourcesText}</p>
+      </div>
+      <div class="cards-3">
+        {[
+          { r: h.resourceTools, icon: 'calculator', page: 'tools' as const },
+          { r: h.resourceKnowledge, icon: 'book', page: 'knowledge' as const },
+          { r: h.resourceArticles, icon: 'article', page: 'articles' as const },
+        ].map(({ r, icon, page }) => (
+          <article class="card card-link" data-reveal>
+            <span class="icon-badge"><Icon name={icon} /></span>
+            <h3>{r.title}</h3>
+            <p>{r.text}</p>
+            <a class="link-arrow" href={href(locale, page)}>{r.cta} <Icon name="arrow" size={16} /></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container cta-inner" data-reveal>
+      <div>
+        <h2>{h.ctaTitle}</h2>
+        <p>{h.ctaText}</p>
+      </div>
+      <a class="btn btn-gold btn-lg" href={href(locale, 'contact')}>{h.ctaButton}</a>
+    </div>
+  </section>
+</Base>

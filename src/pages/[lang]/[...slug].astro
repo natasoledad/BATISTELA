@@ -1,0 +1,42 @@
+---
+// Despacha todas as rotas localizadas para o componente de página correspondente.
+import { getCollection } from 'astro:content';
+import { locales, routes, dictionaries, type Locale, type PageKey } from '../../i18n';
+import About from '../../components/pages/About.astro';
+import Solutions from '../../components/pages/Solutions.astro';
+import Solution from '../../components/pages/Solution.astro';
+import Tools from '../../components/pages/Tools.astro';
+import Knowledge from '../../components/pages/Knowledge.astro';
+import Articles from '../../components/pages/Articles.astro';
+import Article from '../../components/pages/Article.astro';
+import Contact from '../../components/pages/Contact.astro';
+import Privacy from '../../components/pages/Privacy.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('artigos', ({ data }) => !data.draft);
+  const paths: { params: { lang: Locale; slug: string }; props: Record<string, unknown> }[] = [];
+  for (const lang of locales) {
+    const simple: PageKey[] = ['about', 'solutions', 'tools', 'knowledge', 'articles', 'contact', 'privacy'];
+    for (const page of simple) paths.push({ params: { lang, slug: routes[page][lang] }, props: { page } });
+    dictionaries[lang].solutions.items.forEach((s, index) => {
+      paths.push({ params: { lang, slug: `${routes.solutions[lang]}/${s.slug}` }, props: { page: 'solution', index } });
+    });
+    for (const post of posts) {
+      paths.push({ params: { lang, slug: `${routes.articles[lang]}/${post.id}` }, props: { page: 'article', post } });
+    }
+  }
+  return paths;
+}
+
+const locale = Astro.params.lang as Locale;
+const { page, index, post } = Astro.props as { page: string; index?: number; post?: any };
+---
+{page === 'about' && <About locale={locale} />}
+{page === 'solutions' && <Solutions locale={locale} />}
+{page === 'solution' && <Solution locale={locale} index={index!} />}
+{page === 'tools' && <Tools locale={locale} />}
+{page === 'knowledge' && <Knowledge locale={locale} />}
+{page === 'articles' && <Articles locale={locale} />}
+{page === 'article' && <Article locale={locale} post={post} />}
+{page === 'contact' && <Contact locale={locale} />}
+{page === 'privacy' && <Privacy locale={locale} />}

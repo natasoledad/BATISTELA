@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../Icon.astro';
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { t, href, locales, type Locale } from '../../i18n';
+interface Props { locale: Locale; post: CollectionEntry<'artigos'> }
+const { locale, post } = Astro.props;
+const d = t(locale);
+const a = d.articles;
+const { Content } = await render(post);
+const fmt = new Intl.DateTimeFormat(d.htmlLang, { dateStyle: 'long' });
+const alternates = Object.fromEntries(locales.map((l) => [l, post.id])) as Record<Locale, string>;
+const siteUrl = (Astro.site?.toString() || '').replace(/\/+$/, '');
+const ptUrl = siteUrl + href('pt', 'articles', post.id);
+const translateUrl = `https://translate.google.com/translate?sl=pt&tl=${locale}&u=${encodeURIComponent(ptUrl)}`;
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  author: { '@type': 'Person', name: post.data.author },
+  datePublished: post.data.date.toISOString(),
+  inLanguage: 'pt-BR',
+  publisher: { '@type': 'Organization', name: d.brand.name },
+};
+---
+
+<Base locale={locale} page="articles" title={`${post.data.title} | ${d.brand.name}`} description={post.data.description} alternates={alternates} ogType="article" jsonLd={[articleLd]}>
+  <article class="article">
+    <header class="page-head">
+      <div class="container narrow">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href={href(locale, 'articles')}>{a.title}</a> / <span>{post.data.title}</span></nav>
+        <h1>{post.data.title}</h1>
+        <p class="muted">{a.by} <strong>{post.data.author}</strong> · {fmt.format(post.data.date)} · {post.data.readingMinutes} {a.minutes}</p>
+        {locale !== 'pt' && (
+          <p class="notice">{a.translateNotice} <a href={translateUrl} target="_blank" rel="noopener">{a.translateLink}</a></p>
+        )}
+      </div>
+    </header>
+    <div class="container narrow prose article-body" lang="pt-BR">
+      <Content />
+    </div>
+    <div class="container narrow">
+      <a class="link-arrow" href={href(locale, 'articles')}><Icon name="arrow" size={16} class="flip" /> {a.backToList}</a>
+    </div>
+  </article>
+</Base>

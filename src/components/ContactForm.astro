@@ -1,0 +1,70 @@
+---
+import { t, href, type Locale } from '../i18n';
+import { site, whatsappLink } from '../lib/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale).contact;
+---
+
+<form class="form card-lg" id="form-contato" novalidate>
+  <input type="hidden" name="_subject" value={`Contato pelo site (${locale})`} />
+  <input type="hidden" name="idioma" value={locale} />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+  <div class="field">
+    <label for="nome">{c.name}</label>
+    <input id="nome" name="nome" type="text" autocomplete="name" required />
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label for="email">{c.email}</label>
+      <input id="email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="telefone">{c.phone}</label>
+      <input id="telefone" name="telefone" type="tel" autocomplete="tel" />
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label for="empresa">{c.company}</label>
+      <input id="empresa" name="empresa" type="text" autocomplete="organization" />
+    </div>
+    <div class="field">
+      <label for="assunto">{c.subject}</label>
+      <select id="assunto" name="assunto">
+        {c.subjects.map((s) => <option>{s}</option>)}
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label for="mensagem">{c.message}</label>
+    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+  </div>
+  <p class="consent">{c.consent} <a href={href(locale, 'privacy')} target="_blank">{c.consentLink}</a>.</p>
+  <button class="btn btn-primary btn-lg" type="submit" data-sending={c.sending}>{c.submit}</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<script define:vars={{ endpoint: site.formEndpoint, okMsg: c.success, errMsg: c.error, wa: whatsappLink() }}>
+  const form = document.getElementById('form-contato');
+  const status = form.querySelector('.form-status');
+  const btn = form.querySelector('button[type=submit]');
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const req = ['nome', 'email', 'mensagem'];
+    let ok = true;
+    req.forEach((n) => { const el = form[n]; const bad = !el.value.trim(); el.setAttribute('aria-invalid', String(bad)); if (bad) ok = false; });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) { form.email.setAttribute('aria-invalid', 'true'); ok = false; }
+    if (!ok) { status.className = 'form-status err'; status.textContent = errMsg; return; }
+    btn.disabled = true; const label = btn.textContent; btn.textContent = btn.dataset.sending;
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      if (!res.ok) throw new Error('send');
+      status.className = 'form-status ok'; status.textContent = okMsg; form.reset();
+    } catch {
+      status.className = 'form-status err'; status.innerHTML = errMsg + ' <a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>';
+    } finally { btn.disabled = false; btn.textContent = label; }
+  });
+</script>
