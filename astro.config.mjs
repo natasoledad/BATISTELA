@@ -19,6 +19,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // A raiz só redireciona; não entra no sitemap.
+      filter: (page) => /\/(pt|es|en)\//.test(page),
       i18n: {
         defaultLocale: 'pt',
         locales: { pt: 'pt-BR', es: 'es-CL', en: 'en-US' },
