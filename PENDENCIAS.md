@@ -9,7 +9,6 @@ Lista viva do que falta para o site ficar completo. Atualizada a cada etapa.
 - [ ] **Fotos** para a Home e Quem somos (escritório, equipe). As imagens do Drive (mockups, Imagem 2, Imagem 17) são grandes demais para baixar pela integração; subir direto no GitHub em `public/img/`.
 - [ ] **Manual de identidade visual (PDF de 26 MB)**: não foi possível ler pela integração do Drive. As cores e fontes foram extraídas do arquivo Logo RGB. Se o manual define regras diferentes (área de respiro, usos proibidos), avisar.
 - [ ] **Redes sociais**: links do Instagram e LinkedIn em `src/lib/site.ts` (`social`).
-- [ ] **Confirmar o WhatsApp**: foi informado +55 48 9911-7072 (8 dígitos após o DDD). Celulares no Brasil têm 9 dígitos. Se o correto for +55 48 99911-7072, ajustar `whatsappDisplay` e `whatsappNumber` em `src/lib/site.ts`.
 - [ ] **Licença das fontes**: Area Extended e Moneta Sans são fontes comerciais. Confirmar que a licença adquirida cobre uso em site (webfont). Caso contrário, trocar por fontes livres parecidas (ex.: Outfit e Inter) em `src/layouts/Base.astro` e `src/styles/global.css`.
 
 ## Artigos do blog (5 primeiros)

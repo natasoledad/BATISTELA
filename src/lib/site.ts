@@ -2,8 +2,8 @@
 export const site = {
   domain: 'batistelaconsultoria.com',
   email: 'info@batistelaconsultoria.com',
-  whatsappDisplay: '+55 48 9911-7072',
-  whatsappNumber: '554899117072', // somente dígitos, para o link wa.me
+  whatsappDisplay: '+55 48 99911-7072',
+  whatsappNumber: '5548999117072', // somente dígitos, para o link wa.me
   address: {
     street: 'R. Santos Dumont, 182',
     district: 'Centro',
