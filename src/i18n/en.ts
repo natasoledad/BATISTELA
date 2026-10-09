@@ -267,7 +267,7 @@ export const en: Dictionary = {
     ebooksText: 'Practical, straight-to-the-point guides to read and apply.',
     ebooks: [
       { id: 'fluxo-de-caixa-rapido', title: 'Quick Cash Flow', description: 'A short guide to set up and maintain your company\'s cash flow in a few days, with examples and a step-by-step. In Portuguese.', file: 'ebook-fluxo-de-caixa-rapido-batistela.pdf', format: 'PDF' },
-      { id: 'ebook-consultores', title: 'Consultants\' e-book', description: 'Complete material from our consultants on business management. Coming soon.', file: null, format: 'PDF' },
+      { id: 'alem-do-lucro', title: 'Beyond Profit: a practical guide to financial KPIs', description: 'Contribution margin, EBITDA, net profit, ROE, ROIC, ROI, debt and liquidity ratios explained with simple examples, by Saulo and Sandra Batistela. In Portuguese.', file: 'ebook-alem-do-lucro-indicadores-financeiros-batistela.pdf', format: 'PDF · 19 pages' },
     ],
     coursesTitle: 'Courses',
     coursesText: 'Focused training for entrepreneurs and managers. Join the waitlist and be notified when enrollment opens.',

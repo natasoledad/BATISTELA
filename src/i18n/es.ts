@@ -267,7 +267,7 @@ export const es: Dictionary = {
     ebooksText: 'Guías prácticas, directas al punto, para leer y aplicar.',
     ebooks: [
       { id: 'fluxo-de-caixa-rapido', title: 'Flujo de Caja Rápido', description: 'Una guía corta para armar y mantener el flujo de caja de tu empresa en pocos días, con ejemplos y un paso a paso. En portugués.', file: 'ebook-fluxo-de-caixa-rapido-batistela.pdf', format: 'PDF' },
-      { id: 'ebook-consultores', title: 'E-book de los consultores', description: 'Material completo de nuestros consultores sobre gestión empresarial. Publicación próximamente.', file: null, format: 'PDF' },
+      { id: 'alem-do-lucro', title: 'Más allá de la utilidad: guía práctica de indicadores financieros', description: 'Margen de contribución, EBITDA, utilidad neta, ROE, ROIC, ROI, endeudamiento y liquidez explicados con ejemplos simples, por Saulo y Sandra Batistela. En portugués.', file: 'ebook-alem-do-lucro-indicadores-financeiros-batistela.pdf', format: 'PDF · 19 páginas' },
     ],
     coursesTitle: 'Cursos',
     coursesText: 'Formaciones concretas para emprendedores y gerentes. Únete a la lista de espera y te avisaremos cuando abran las inscripciones.',
