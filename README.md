@@ -75,4 +75,4 @@ manutenção em `integracoes/google-apps-script/README.md`. A URL do script fica
 
 - Azul: `#202A44` · Ouro fosco: `#AD965F` · Amarelo claro: `#F5ECD5`
 - Azul secundário: `#4D5F80` · Azul claro: `#C8D8EB` · Cinza: `#D9D9D6`
-- Títulos: Area Extended · Texto: Moneta Sans
+- Títulos: Moneta Sans · Texto, botões e rótulos: Area Extended
