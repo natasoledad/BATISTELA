@@ -21,5 +21,5 @@ as cores, fontes) continua no Drive.
 
 ## Fontes
 
-- Área Extended (títulos): Regular, SemiBold, Bold em `public/fonts/` (woff2)
-- Moneta Sans (texto): Light, Regular, Bold em `public/fonts/` (woff2)
+- Area Extended (texto, botões e rótulos): Regular, SemiBold, Bold em `public/fonts/` (woff2)
+- Moneta Sans (títulos): Light, Regular, Bold em `public/fonts/` (woff2)
