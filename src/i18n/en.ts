@@ -83,11 +83,11 @@ export const en: Dictionary = {
     teamTitle: 'Our consultants',
     teamText: 'Professionals with real-world experience in business management, finance, marketing and technology.',
     partners: [
-      { name: 'Sandra', role: 'Consultant', bio: 'Profile coming soon.', initials: 'S' },
-      { name: 'Saulo', role: 'Consultant', bio: 'Profile coming soon.', initials: 'S' },
+      { name: 'Saulo Batistela de Lima', role: 'Economist · Partner and consultant', bio: 'Economist with an MBA in Finance and over 20 years of experience in financial management, consulting and project feasibility analysis. Solid international experience in Brazil and Chile across several industries. Expertise in team leadership and training, process optimization, budget management and supplier negotiation, with proven results in maximizing financial KPIs and developing tailored solutions for companies.', initials: 'SB' },
+      { name: 'Sandra Batistela de L. Joaquim', role: 'Business Administrator · Partner and consultant', bio: 'Business Administrator with 20 years of solid experience in administrative and financial roles, backed by a postgraduate degree in People Management in Organizations. Expertise in people-centered processes, excellence in organizing and structuring workflows, strategic budget management, designing and tracking action plans to increase productivity, and developing and delivering effective training programs.', initials: 'SJ' },
       { name: 'Natalia Silva', role: 'Consultant', bio: 'Profile coming soon.', initials: 'NS' },
     ],
-    teamPending: 'Full consultant profiles will be published soon.',
+    teamPending: 'Natalia Silva\'s profile will be published soon.',
   },
   solutions: {
     seoTitle: 'Business Management and Technology Solutions | Batistela',

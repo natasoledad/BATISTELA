@@ -4,7 +4,9 @@ Lista viva do que falta para o site ficar completo. Atualizada a cada etapa.
 
 ## Conteúdo que depende da Batistela
 
-- [ ] **Mini currículos dos consultores** (Sandra, Saulo e Natalia Silva): nome completo, cargo, texto curto, foto e LinkedIn. Hoje a página Quem somos mostra cartões com iniciais e "mini currículo em breve". Arquivo: `src/i18n/pt.ts` (e `es.ts`, `en.ts`), bloco `about.partners`.
+- [x] Mini currículos de Saulo e Sandra publicados (extraídos do e-book "Além do Lucro").
+- [ ] **Mini currículo de Natalia Silva**: cargo, texto curto e LinkedIn. Arquivo: `src/i18n/pt.ts` (e `es.ts`, `en.ts`), bloco `about.partners`.
+- [ ] **Fotos dos consultores** para a página Quem somos (hoje aparecem as iniciais).
 - [ ] **E-book dos consultores** (o que contém os mini currículos de Sandra e Saulo): enviar o PDF. Salvar em `public/downloads/` e preencher o campo `file` do item `ebook-consultores` nos três dicionários.
 - [ ] **Fotos** para a Home e Quem somos (escritório, equipe). As imagens do Drive (mockups, Imagem 2, Imagem 17) são grandes demais para baixar pela integração; subir direto no GitHub em `public/img/`.
 - [ ] **Manual de identidade visual (PDF de 26 MB)**: não foi possível ler pela integração do Drive. As cores e fontes foram extraídas do arquivo Logo RGB. Se o manual define regras diferentes (área de respiro, usos proibidos), avisar.

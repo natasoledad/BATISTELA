@@ -83,11 +83,11 @@ export const pt: Dictionary = {
     teamTitle: 'Nossos consultores',
     teamText: 'Profissionais com vivência real em gestão de empresas, finanças, marketing e tecnologia.',
     partners: [
-      { name: 'Sandra', role: 'Consultora', bio: 'Mini currículo em breve.', initials: 'S' },
-      { name: 'Saulo', role: 'Consultor', bio: 'Mini currículo em breve.', initials: 'S' },
+      { name: 'Saulo Batistela de Lima', role: 'Economista · Sócio-consultor', bio: 'Economista com MBA em Finanças e mais de 20 anos de experiência em gestão financeira, consultoria e análise de viabilidade de projetos. Sólida experiência internacional no Brasil e no Chile, atuando em diversos setores da economia. Expertise em liderança e treinamento de equipes, otimização de processos, gestão orçamentária e negociação com fornecedores, com resultados comprovados na maximização de indicadores financeiros e no desenvolvimento de soluções personalizadas para empresas.', initials: 'SB' },
+      { name: 'Sandra Batistela de L. Joaquim', role: 'Administradora · Sócia-consultora', bio: 'Administradora de Empresas com sólida experiência de 20 anos na área administrativa e financeira, impulsionada por uma pós-graduação em Gestão de Pessoas nas Organizações. Expertise em processos humanizados, excelência na organização e estruturação do fluxo de trabalho, gestão orçamentária estratégica, elaboração e acompanhamento de planos de ação para aumento da produtividade, além de desenvolvimento e aplicação de treinamentos eficazes.', initials: 'SJ' },
       { name: 'Natalia Silva', role: 'Consultora', bio: 'Mini currículo em breve.', initials: 'NS' },
     ],
-    teamPending: 'Os mini currículos completos dos consultores serão publicados em breve.',
+    teamPending: 'O mini currículo de Natalia Silva será publicado em breve.',
   },
   solutions: {
     seoTitle: 'Soluções em Gestão de Negócios e Tecnologia | Batistela',
