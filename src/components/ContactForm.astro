@@ -7,10 +7,9 @@ const c = t(locale).contact;
 ---
 
 <form class="form card-lg" id="form-contato" novalidate>
-  <input type="hidden" name="_subject" value={`Contato pelo site (${locale})`} />
+  <input type="hidden" name="tipo" value="contato" />
   <input type="hidden" name="idioma" value={locale} />
-  <input type="hidden" name="_template" value="table" />
-  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="pagina" value="" />
   <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
   <div class="field">
     <label for="nome">{c.name}</label>
@@ -58,10 +57,14 @@ const c = t(locale).contact;
     req.forEach((n) => { const el = form[n]; const bad = !el.value.trim(); el.setAttribute('aria-invalid', String(bad)); if (bad) ok = false; });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) { form.email.setAttribute('aria-invalid', 'true'); ok = false; }
     if (!ok) { status.className = 'form-status err'; status.textContent = errMsg; return; }
+    if (!endpoint) { status.className = 'form-status err'; status.innerHTML = errMsg + ' <a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>'; return; }
     btn.disabled = true; const label = btn.textContent; btn.textContent = btn.dataset.sending;
+    form.pagina.value = location.href;
     try {
-      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-      if (!res.ok) throw new Error('send');
+      // text/plain evita o preflight CORS, que o Apps Script não responde.
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      const out = await res.json();
+      if (!res.ok || !out.ok) throw new Error('send');
       status.className = 'form-status ok'; status.textContent = okMsg; form.reset();
     } catch {
       status.className = 'form-status err'; status.innerHTML = errMsg + ' <a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>';

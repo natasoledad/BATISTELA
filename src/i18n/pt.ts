@@ -359,7 +359,7 @@ export const pt: Dictionary = {
       { title: 'Quais dados coletamos', text: 'Coletamos os dados que você informa nos formulários de contato, download e lista de espera: nome, e-mail, telefone, empresa e mensagem. Também coletamos dados de navegação de forma anônima, por meio de cookies, para medir o uso do site.' },
       { title: 'Para que usamos', text: 'Usamos seus dados para responder às suas mensagens, enviar os materiais solicitados, avisar sobre cursos e novidades e melhorar o site. Não vendemos nem compartilhamos seus dados com terceiros para fins de marketing.' },
       { title: 'Base legal', text: 'O tratamento se baseia no seu consentimento, no legítimo interesse de responder a contatos comerciais e na execução de medidas pré-contratuais, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018).' },
-      { title: 'Armazenamento e segurança', text: 'Os formulários são processados por um serviço de envio de e-mail e armazenados na nossa caixa de entrada. Adotamos medidas razoáveis para proteger os dados contra acesso não autorizado.' },
+      { title: 'Armazenamento e segurança', text: 'Os formulários são recebidos por um sistema próprio na nossa conta Google e armazenados em uma planilha de acesso restrito. Adotamos medidas razoáveis para proteger os dados contra acesso não autorizado.' },
       { title: 'Seus direitos', text: 'Você pode solicitar a confirmação, o acesso, a correção ou a exclusão dos seus dados a qualquer momento, pelo e-mail info@batistelaconsultoria.com.' },
       { title: 'Cookies', text: 'Usamos cookies estritamente necessários e, se você consentir, cookies de medição de audiência. Você pode desativá-los nas configurações do seu navegador.' },
     ],

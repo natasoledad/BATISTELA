@@ -19,12 +19,10 @@ const privacy = t(locale).contact;
     <p class="muted" id="lead-text" data-text-download={d.text} data-text-waitlist={d.waitlistText}>{d.text}</p>
 
     <form id="lead-form" class="form" novalidate>
-      <input type="hidden" name="_subject" value="" />
       <input type="hidden" name="tipo" value="" />
       <input type="hidden" name="material" value="" />
       <input type="hidden" name="idioma" value={locale} />
-      <input type="hidden" name="_template" value="table" />
-      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="pagina" value="" />
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
       <div class="field">
         <label for="lead-nome">{d.name}</label>
@@ -67,7 +65,7 @@ const privacy = t(locale).contact;
     submitBtn.textContent = type === 'download' ? submitBtn.dataset.labelDownload : submitBtn.dataset.labelWaitlist;
     form.querySelector('[name=tipo]').value = type;
     form.querySelector('[name=material]').value = name;
-    form.querySelector('[name=_subject]').value = (type === 'download' ? 'Download: ' : 'Lista de espera: ') + name;
+    form.querySelector('[name=pagina]').value = location.href;
     form.hidden = false; done.hidden = true; status.textContent = ''; status.className = 'form-status';
     modal.hidden = false; document.body.classList.add('modal-open');
     setTimeout(() => document.getElementById('lead-nome').focus(), 50);
@@ -94,10 +92,13 @@ const privacy = t(locale).contact;
     const nome = form.nome.value.trim(), email = form.email.value.trim();
     const ok = nome && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!ok) { status.className = 'form-status err'; status.textContent = errorMsg; return; }
+    if (!endpoint) { status.className = 'form-status err'; status.textContent = errorMsg; return; }
     submitBtn.disabled = true; const label = submitBtn.textContent; submitBtn.textContent = submitBtn.dataset.sending;
     try {
-      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-      if (!res.ok) throw new Error('send');
+      // text/plain evita o preflight CORS, que o Apps Script não responde.
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      const out = await res.json();
+      if (!res.ok || !out.ok) throw new Error('send');
       try { localStorage.setItem('bt-lead', email); } catch {}
       form.hidden = true; done.hidden = false;
       doneMsg.textContent = current.type === 'download' ? doneMsg.dataset.download : doneMsg.dataset.waitlist;

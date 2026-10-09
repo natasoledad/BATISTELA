@@ -66,9 +66,10 @@ Quando o domínio estiver ativo, siga os passos comentados no início do workflo
 
 ## Formulários
 
-Contato, downloads e listas de espera enviam por **FormSubmit** para
-`info@batistelaconsultoria.com`, sem backend. Na primeira mensagem, o FormSubmit envia um
-e-mail de ativação para essa caixa; é preciso confirmar uma vez.
+Contato, downloads e listas de espera enviam para um **Google Apps Script** próprio, que
+grava cada envio na planilha "Batistela - Leads do site" e avisa por e-mail. Instalação e
+manutenção em `integracoes/google-apps-script/README.md`. A URL do script fica em
+`src/lib/site.ts` (`formEndpoint`).
 
 ## Identidade visual
 
