@@ -30,7 +30,7 @@ Escrever em português, um arquivo Markdown por artigo em `src/content/artigos/`
 
 - [ ] **Registrar o domínio** batistelaconsultoria.com (Registro.br ou outro). Depois, no GitHub: Settings → Pages → Custom domain, e criar as variáveis `SITE_URL` e `BASE_PATH` conforme descrito em `.github/workflows/deploy-pages.yml`.
 - [ ] **Ativar o GitHub Pages**: Settings → Pages → Source: GitHub Actions. O site publica sozinho a cada push na `main`.
-- [ ] **Instalar o script dos formulários**: seguir `integracoes/google-apps-script/README.md` (colar o código na planilha "Batistela - Leads do site", implantar como app da Web e colocar a URL em `src/lib/site.ts`). Até isso, os formulários mostram erro e indicam o WhatsApp.
+- [x] **Script dos formulários** instalado e configurado em `src/lib/site.ts`. Os envios caem na planilha "Batistela - Leads do site" e avisam por e-mail.
 - [ ] **E-mail info@batistelaconsultoria.com**: precisa existir (Google Workspace, Zoho ou o e-mail do registrador). Quando existir, trocar o `NOTIFY_EMAIL` no script.
 - [ ] **Google Search Console** e **Google Analytics**: criar as contas e adicionar a tag de medição em `src/layouts/Base.astro`.
 - [ ] **Perfil no Google Business** com o endereço R. Santos Dumont, 182, Centro, Florianópolis (SEO local).

@@ -14,7 +14,7 @@ export const site = {
   },
   // Envio dos formulários: Google Apps Script ligado à planilha "Batistela - Leads do site".
   // Instruções em integracoes/google-apps-script/README.md. Cole aqui a URL do app da Web (termina em /exec).
-  formEndpoint: '',
+  formEndpoint: 'https://script.google.com/macros/s/AKfycbwuWAbMFpOcts9eJecRM8z8zjSdssdnwDh2iBHlaC_HtPe9R4zNFivuB5S0zYumrN5_/exec',
   mapsEmbed: 'https://www.google.com/maps?q=R.+Santos+Dumont,+182,+Centro,+Florian%C3%B3polis,+SC,+Brasil&output=embed',
   mapsLink: 'https://www.google.com/maps/search/?api=1&query=R.+Santos+Dumont,+182,+Centro,+Florian%C3%B3polis,+SC,+Brasil',
   social: {
