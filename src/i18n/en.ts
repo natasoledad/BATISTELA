@@ -85,9 +85,9 @@ export const en: Dictionary = {
     partners: [
       { name: 'Saulo Batistela de Lima', role: 'Economist · Partner and consultant', bio: 'Economist with an MBA in Finance and over 20 years of experience in financial management, consulting and project feasibility analysis. Solid international experience in Brazil and Chile across several industries. Expertise in team leadership and training, process optimization, budget management and supplier negotiation, with proven results in maximizing financial KPIs and developing tailored solutions for companies.', initials: 'SB' },
       { name: 'Sandra Batistela de L. Joaquim', role: 'Business Administrator · Partner and consultant', bio: 'Business Administrator with 20 years of solid experience in administrative and financial roles, backed by a postgraduate degree in People Management in Organizations. Expertise in people-centered processes, excellence in organizing and structuring workflows, strategic budget management, designing and tracking action plans to increase productivity, and developing and delivering effective training programs.', initials: 'SJ' },
-      { name: 'Natalia Silva', role: 'Consultant', bio: 'Profile coming soon.', initials: 'NS' },
+      { name: 'Natalia Silva', role: 'Customer Experience and Technology · Consultant', bio: 'Senior executive with a solid track record leading regional operations and Customer Experience (CX) strategies across Latin America. Works as a consultant integrating Service Design, User Experience (UX) and Customer Journey Mapping (CJM) practices to map and transform the customer journey, optimizing every touchpoint. Her expertise covers strategic process design and advanced automation, combining Artificial Intelligence (AI) with platforms such as Salesforce, Kommo CRM, SAP and Oracle ERP. She delivers tailored solutions that unite business vision and technological innovation, creating experiences that build customer loyalty and generate sustainable value for the brand.', initials: 'NS' },
     ],
-    teamPending: 'Natalia Silva\'s profile will be published soon.',
+    teamPending: '',
   },
   solutions: {
     seoTitle: 'Business Management and Technology Solutions | Batistela',
