@@ -12,9 +12,9 @@ export const site = {
     country: 'BR',
     full: 'R. Santos Dumont, 182, Centro, Florianópolis, SC, Brasil',
   },
-  // Envio dos formulários: FormSubmit entrega direto no e-mail acima, sem backend.
-  // Na primeira mensagem o FormSubmit envia um e-mail de ativação para info@ (confirmar uma vez).
-  formEndpoint: 'https://formsubmit.co/ajax/info@batistelaconsultoria.com',
+  // Envio dos formulários: Google Apps Script ligado à planilha "Batistela - Leads do site".
+  // Instruções em integracoes/google-apps-script/README.md. Cole aqui a URL do app da Web (termina em /exec).
+  formEndpoint: '',
   mapsEmbed: 'https://www.google.com/maps?q=R.+Santos+Dumont,+182,+Centro,+Florian%C3%B3polis,+SC,+Brasil&output=embed',
   mapsLink: 'https://www.google.com/maps/search/?api=1&query=R.+Santos+Dumont,+182,+Centro,+Florian%C3%B3polis,+SC,+Brasil',
   social: {

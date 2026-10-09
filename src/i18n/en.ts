@@ -359,7 +359,7 @@ export const en: Dictionary = {
       { title: 'What data we collect', text: 'We collect the data you enter in the contact, download and waitlist forms: name, email, phone, company and message. We also collect anonymous browsing data through cookies to measure site usage.' },
       { title: 'How we use it', text: 'We use your data to reply to your messages, send the materials you requested, notify you about courses and news, and improve the website. We do not sell or share your data with third parties for marketing purposes.' },
       { title: 'Legal basis', text: 'Processing is based on your consent, on our legitimate interest in answering business inquiries and on pre-contractual steps, in accordance with the Brazilian General Data Protection Law (Law 13.709/2018) and applicable laws in your jurisdiction.' },
-      { title: 'Storage and security', text: 'Forms are processed by an email delivery service and stored in our inbox. We take reasonable measures to protect data against unauthorized access.' },
+      { title: 'Storage and security', text: 'Forms are received by our own system in our Google account and stored in a restricted-access spreadsheet. We take reasonable measures to protect data against unauthorized access.' },
       { title: 'Your rights', text: 'You may request confirmation, access, correction or deletion of your data at any time by emailing info@batistelaconsultoria.com.' },
       { title: 'Cookies', text: 'We use strictly necessary cookies and, with your consent, audience measurement cookies. You can disable them in your browser settings.' },
     ],
